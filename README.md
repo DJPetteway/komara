@@ -6,24 +6,24 @@ See [CHARTER.md](CHARTER.md).
 
 ## Komara Commons (the site)
 
-`site/` is a free static website, with no build step:
+`docs/` is a free static website, with no build step:
 
 - **Learn**: eight modules of *The Connected Story*, written in plain language
   and in time order: the first Americans; Florida's explorer logs; Spain, France
   and Florida (Fort Mose); the Haudenosaunee between empires; the Haitian
   Revolution; Dessalines; Haiti, the Louisiana Purchase and Florida; and Sankara.
   Each has key dates, people, what's debated, why it matters, sources and
-  discussion questions. The content lives in `site/modules.js`. These modules
+  discussion questions. The content lives in `docs/modules.js`. These modules
   are drafts for historians to review before classroom use.
 - **Join the registry**: a skills form with dropdowns for field, trade,
   experience, country, heritage and availability, plus contact details and
   verification (a public profile, an optional reference, and license details).
-  The choices live in `site/registry.js`. Until `endpoint` is set to a form
+  The choices live in `docs/registry.js`. Until `endpoint` is set to a form
   backend (for example Formspree or a Google Apps Script web app), the form
   runs in preview mode and only shows the record it would send.
 
-To view it locally, open `site/index.html` in a browser. To publish it, turn on
-GitHub Pages for the `site/` folder, or upload the folder to any static host.
+To view it locally, open `docs/index.html` in a browser. To publish it, turn on
+GitHub Pages (Settings → Pages → deploy from a branch, folder `/docs`), or upload the folder to any static host.
 
 ## L0: the contribution record
 
