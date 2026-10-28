@@ -26,20 +26,8 @@
   --step-3: clamp(2.1rem, 4.6vw, 3.25rem);
   --measure: 65ch;
   --radius: 10px;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #14151c; --surface: #1b1d26; --ink: #e9e8e3; --muted: #a3a5b4; --line: #2c2e3a;
-    --accent: #a9b5ec; --accent-ink: #14151c; --soft: #20222c; --label: #cdb98e; --danger: #f09a92;
-    --v-yes: #8fcfac; --v-part: #e2c27a; --v-no: #f0a29a;
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #14151c; --surface: #1b1d26; --ink: #e9e8e3; --muted: #a3a5b4; --line: #2c2e3a;
-  --accent: #a9b5ec; --accent-ink: #14151c; --soft: #20222c; --label: #cdb98e; --danger: #f09a92;
-  --v-yes: #8fcfac; --v-part: #e2c27a; --v-no: #f0a29a;
-  color-scheme: dark;
+  /* Komara is light-only by design: the same clean page for every viewer. */
+  color-scheme: light;
 }
 
 * { box-sizing: border-box; }

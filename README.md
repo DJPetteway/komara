@@ -7,17 +7,17 @@ See [CHARTER.md](CHARTER.md).
 ## The Komara Project site
 
 `docs/` is a free static website, with no build step. It opens on a short splash
-page with three doors: **Study**, **Join** and **Reform**.
+page with three doors: **Study**, **Join** and **Reform**. The site always shows
+its light theme.
 
-
-- **The thread** (home page): the curriculum's spine. It is 14 cases in time
+- **Study → The thread**: the curriculum's spine. It is 14 cases in time
   order, from Florida 14,000 years ago to Sankara in 1987. Each case is a claim.
   The learner judges it (supported, partly supported, not supported) before
   seeing the evidence, the strongest counter-argument and the historians'
   verdict. Then the case leads into the next one. Some claims hold up, some are
   popular myths, and some are honestly contested. Answers stay in the learner's
   own browser. The cases live in `docs/cases.js`.
-- **Chapters**: eight longer readings for depth: the first Americans; Florida's
+- **Study → Chapters**: eight longer readings for depth: the first Americans; Florida's
   explorer logs; Spain, France and Florida (Fort Mose); the Haudenosaunee
   between empires; the Haitian Revolution; Dessalines; Haiti, the Louisiana
   Purchase and Florida; and Sankara. Each has key points, key dates, people,
