@@ -33,57 +33,73 @@
   }
 
   function kicker(m) {
-    return el("span", { class: "kicker", text: m.kicker });
+    return el("span", { class: "label", text: m.kicker });
   }
 
   function moduleCard(m) {
     return el("a", { class: "card", href: "#" + m.id }, [
-      el("span", { class: "card-meta" }, [kicker(m), el("span", { class: "era", text: m.era })]),
+      kicker(m),
       el("span", { class: "card-title", text: m.hook }),
       el("span", { class: "card-sum", text: m.dek }),
-      el("span", { class: "card-foot", text: m.title + " · 60-second version, or " + readMinutes(m) + " min full story" })
+      el("span", { class: "card-foot", text: m.era + " · " + readMinutes(m) + " min read" })
     ]);
   }
 
-  // Front page order: lead story, two seconds, then the rest as a headline list.
-  var FRONT = ["spain-france-florida", "haitian-revolution", "louisiana-florida", "sankara",
-               "dessalines", "florida-explorers", "haudenosaunee", "first-americans"];
+  // A learning path that follows the connected story from Florida outward.
+  var PATH = [
+    ["spain-france-florida", "Start at home", "Florida’s first free Black town"],
+    ["haitian-revolution", "Cross the water", "The revolution that founded Haiti"],
+    ["sankara", "Reach the Sahel", "The president who renamed Burkina Faso"]
+  ];
+  var FEATURED = "spain-france-florida";
 
   function renderHome() {
-    var stories = FRONT.map(function (id) { return byId[id]; });
-    var lead = stories[0], seconds = stories.slice(1, 3), rest = stories.slice(3);
+    var f = byId[FEATURED];
     return el("div", { class: "home" }, [
-      el("section", { class: "front" }, [
-        el("p", { class: "eyebrow", text: "Komara Project · from Florida · history they skipped" }),
-        el("a", { class: "lead", href: "#" + lead.id }, [
-          kicker(lead),
-          el("h1", { class: "headline", text: lead.hook }),
-          el("p", { class: "dek", text: lead.dek }),
-          el("span", { class: "btn primary", text: "Read it in 60 seconds" })
+      el("section", { class: "hero" }, [
+        el("p", { class: "eyebrow", text: "Komara Project · free diaspora curriculum" }),
+        el("h1", { text: "The connected story of the diaspora." }),
+        el("p", { class: "lede", text: "Every community learns its own piece of the story. Komara teaches how the pieces join, from Florida to Haiti to Burkina Faso and across the Afro-Latin world. Each story starts with a 60-second version." }),
+        el("div", { class: "actions" }, [
+          el("a", { class: "btn primary", href: "#learn", text: "Browse the stories" }),
+          el("a", { class: "btn", href: "#join", text: "Join the skills registry" })
         ]),
-        el("div", { class: "seconds" }, seconds.map(function (m) {
-          return el("a", { class: "second", href: "#" + m.id }, [
-            kicker(m),
-            el("h2", { class: "headline", text: m.hook }),
-            el("p", { class: "dek", text: m.dek })
-          ]);
-        })),
-        el("ol", { class: "wire" }, rest.map(function (m) {
-          return el("li", null, [el("a", { href: "#" + m.id }, [kicker(m), el("span", { text: m.hook })])]);
+        el("p", { class: "facts", text: MODULES.length + " stories · plain language · sources for every story · free to use and share" })
+      ]),
+      el("section", { class: "featured" }, [
+        el("a", { class: "featured-text", href: "#" + f.id }, [
+          el("p", { class: "label", text: "Featured story" }),
+          el("h2", { text: f.hook }),
+          el("p", { class: "dek", text: f.dek }),
+          el("span", { class: "link-arrow", text: "Read the 60-second version" })
+        ]),
+        el("ol", { class: "featured-facts" }, f.fast.slice(0, 3).map(function (t) { return el("li", { text: t }); }))
+      ]),
+      el("section", { class: "band" }, [
+        el("div", { class: "band-head" }, [
+          el("h2", { text: "A learning path" }),
+          el("p", { class: "muted", text: "Three stories, in order, that trace the connection from Florida to the Sahel." })
+        ]),
+        el("ol", { class: "path" }, PATH.map(function (step) {
+          var m = byId[step[0]];
+          return el("li", null, [el("a", { href: "#" + m.id }, [
+            el("span", { class: "label", text: step[1] }),
+            el("strong", { text: step[2] }),
+            el("span", { class: "muted", text: m.era })
+          ])]);
         }))
       ]),
-      el("section", { class: "hero" }, [
-        el("h2", { text: "The connected story of the diaspora, free to learn." }),
-        el("p", { class: "lede", text: "Every community learns its own piece of the story. Komara teaches how the pieces join, from Florida to Haiti to Burkina Faso and across the Afro-Latin world." }),
-        el("div", { class: "actions" }, [
-          el("a", { class: "btn primary", href: "#learn", text: "See all eight stories" }),
-          el("a", { class: "btn", href: "#join", text: "Join the skills registry" })
-        ])
+      el("section", { class: "band" }, [
+        el("div", { class: "band-head" }, [
+          el("h2", { text: "All stories" }),
+          el("p", { class: "muted", text: "In order of time, from the first Americans to Sankara." })
+        ]),
+        el("div", { class: "grid four" }, MODULES.map(moduleCard))
       ]),
       el("section", { class: "band pillars" }, [
         el("h2", { text: "What Komara offers" }),
         el("div", { class: "grid three plain" }, [
-          el("div", null, [el("h3", { text: "Free curriculum" }), el("p", { text: "Eight modules in plain language, with key dates, sources and discussion questions. Use them in a classroom, a church hall or a living room." })]),
+          el("div", null, [el("h3", { text: "Free curriculum" }), el("p", { text: "Stories in plain language, with key dates, sources and discussion questions. Use them in a classroom, a church hall or a living room." })]),
           el("div", null, [el("h3", { text: "Skills registry" }), el("p", { text: "Tell us your trade, your languages and how much time you have. Schools, clinics and community projects across the diaspora can find you." })]),
           el("div", null, [el("h3", { text: "Proof of work" }), el("p", { text: "When you contribute, the people you helped sign it off, and it goes on a public record that cannot be quietly edited." })])
         ])
@@ -95,11 +111,11 @@
     return el("div", null, [
       el("section", { class: "page-head" }, [
         el("p", { class: "eyebrow", text: "The Connected Story" }),
-        el("h1", { class: "headline", text: "Eight Stories They Skipped in School" }),
+        el("h1", { text: "Eight stories they skipped in school" }),
         el("p", { class: "lede", text: "In order of time, from the first Americans to Sankara. Each one starts with a 60-second version, then the full story if you want it." }),
         el("p", { class: "draft", text: "Draft v0. These modules are written for review by historians before classroom use. Corrections are welcome." })
       ]),
-      el("div", { class: "grid two" }, MODULES.map(moduleCard))
+      el("div", { class: "grid four" }, MODULES.map(moduleCard))
     ]);
   }
 
@@ -147,8 +163,8 @@
     return el("article", { class: "module" }, [
       el("header", { class: "module-head" }, [
         el("a", { class: "back", href: "#learn", text: "All stories" }),
-        el("p", { class: "card-meta" }, [kicker(m), el("span", { class: "era", text: m.title + " · " + m.era })]),
-        el("h1", { class: "headline", text: m.hook }),
+        el("p", { class: "eyebrow", text: m.kicker + " · " + m.title + " · " + m.era }),
+        el("h1", { text: m.hook }),
         el("p", { class: "dek", text: m.dek })
       ]),
       el("section", { class: "fast", "aria-labelledby": "fast-h" }, [
