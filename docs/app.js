@@ -1,11 +1,16 @@
-// Komara Project — a small hash-routed page: home, learn, one view per module, join.
+// Komara Project — a small hash-routed site.
+// Views: the thread (home), one view per case, chapters, one view per chapter, join.
 (function () {
   "use strict";
 
   var MODULES = window.KOMARA_MODULES;
+  var CASES = window.KOMARA_CASES;
   var REG = window.KOMARA_REGISTRY;
-  var byId = {};
+  var byId = {}, caseById = {};
   MODULES.forEach(function (m) { byId[m.id] = m; });
+  CASES.forEach(function (c, i) { c.n = i + 1; caseById[c.id] = c; });
+
+  var VERDICTS = { supported: "Supported", partly: "Partly supported", not: "Not supported" };
 
   var view = document.getElementById("view");
 
@@ -25,81 +30,62 @@
     return node;
   }
 
-  // Rough reading time for the full story, at 220 words a minute.
-  function readMinutes(m) {
-    var words = 0;
-    m.sections.forEach(function (s) { s.p.forEach(function (p) { words += p.split(/\s+/).length; }); });
-    return Math.max(1, Math.round(words / 220));
+  function on(node, type, fn) { node.addEventListener(type, fn); return node; }
+
+  // ---- The learner's answers (kept in this browser only) -----------------
+
+  var KEY = "komara.thread.v1";
+  var answers = {};
+  try { answers = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { answers = {}; }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(answers)); } catch (e) { /* storage blocked */ } }
+
+  function score() {
+    var judged = 0, matched = 0;
+    CASES.forEach(function (c) {
+      var a = answers[c.id];
+      if (a && a !== "skip") { judged++; if (a === c.verdict) matched++; }
+    });
+    return { judged: judged, matched: matched };
   }
 
-  function kicker(m) {
-    return el("span", { class: "label", text: m.kicker });
+  function badge(verdict) {
+    return el("span", { class: "verdict v-" + verdict, text: VERDICTS[verdict] });
   }
 
-  function moduleCard(m) {
-    return el("a", { class: "card", href: "#" + m.id }, [
-      kicker(m),
-      el("span", { class: "card-title", text: m.hook }),
-      el("span", { class: "card-sum", text: m.dek }),
-      el("span", { class: "card-foot", text: m.era + " · " + readMinutes(m) + " min read" })
-    ]);
-  }
+  // ---- The thread (home) -------------------------------------------------
 
-  // A learning path that follows the connected story from Florida outward.
-  var PATH = [
-    ["spain-france-florida", "Start at home", "Florida’s first free Black town"],
-    ["haitian-revolution", "Cross the water", "The revolution that founded Haiti"],
-    ["sankara", "Reach the Sahel", "The president who renamed Burkina Faso"]
-  ];
-  var FEATURED = "spain-france-florida";
-
-  function renderHome() {
-    var f = byId[FEATURED];
+  function renderThread() {
+    var sc = score();
     return el("div", { class: "home" }, [
       el("section", { class: "hero" }, [
         el("p", { class: "eyebrow", text: "Komara Project · free diaspora curriculum" }),
         el("h1", { text: "The connected story of the diaspora." }),
-        el("p", { class: "lede", text: "Every community learns its own piece of the story. Komara teaches how the pieces join, from Florida to Haiti to Burkina Faso and across the Afro-Latin world. Each story starts with a 60-second version." }),
+        el("p", { class: "lede", text: "One thread of history, from Florida to Haiti to Burkina Faso. Each step is a claim. Decide whether it holds up, then weigh the evidence." }),
         el("div", { class: "actions" }, [
-          el("a", { class: "btn primary", href: "#learn", text: "Browse the stories" }),
-          el("a", { class: "btn", href: "#join", text: "Join the skills registry" })
-        ]),
-        el("p", { class: "facts", text: MODULES.length + " stories · plain language · sources for every story · free to use and share" })
+          el("a", { class: "btn primary", href: "#" + firstOpen().id, text: sc.judged ? "Continue the thread" : "Start the thread" }),
+          el("a", { class: "btn", href: "#learn", text: "Read the chapters" })
+        ])
       ]),
-      el("section", { class: "featured" }, [
-        el("a", { class: "featured-text", href: "#" + f.id }, [
-          el("p", { class: "label", text: "Featured story" }),
-          el("h2", { text: f.hook }),
-          el("p", { class: "dek", text: f.dek }),
-          el("span", { class: "link-arrow", text: "Read the 60-second version" })
-        ]),
-        el("ol", { class: "featured-facts" }, f.fast.slice(0, 3).map(function (t) { return el("li", { text: t }); }))
+      el("section", { class: "method" }, [
+        el("ol", { class: "steps" }, [
+          step("Judge the claim", "Before you see anything else, say whether you think it is supported."),
+          step("Weigh the evidence", "Read the sources and the strongest argument against."),
+          step("See the verdict", "Compare your judgment with what historians can show. Then follow the thread to what happened next.")
+        ])
       ]),
       el("section", { class: "band" }, [
         el("div", { class: "band-head" }, [
-          el("h2", { text: "A learning path" }),
-          el("p", { class: "muted", text: "Three stories, in order, that trace the connection from Florida to the Sahel." })
+          el("h2", { text: "The thread" }),
+          el("p", { class: "muted", text: CASES.length + " cases, oldest first. " + (sc.judged
+            ? "You have judged " + sc.judged + " and matched the historians on " + sc.matched + "."
+            : "Start anywhere, though each case leads into the next.") })
         ]),
-        el("ol", { class: "path" }, PATH.map(function (step) {
-          var m = byId[step[0]];
-          return el("li", null, [el("a", { href: "#" + m.id }, [
-            el("span", { class: "label", text: step[1] }),
-            el("strong", { text: step[2] }),
-            el("span", { class: "muted", text: m.era })
-          ])]);
-        }))
-      ]),
-      el("section", { class: "band" }, [
-        el("div", { class: "band-head" }, [
-          el("h2", { text: "All stories" }),
-          el("p", { class: "muted", text: "In order of time, from the first Americans to Sankara." })
-        ]),
-        el("div", { class: "grid four" }, MODULES.map(moduleCard))
+        el("ol", { class: "thread" }, CASES.map(threadItem))
       ]),
       el("section", { class: "band pillars" }, [
         el("h2", { text: "What Komara offers" }),
         el("div", { class: "grid three plain" }, [
-          el("div", null, [el("h3", { text: "Free curriculum" }), el("p", { text: "Stories in plain language, with key dates, sources and discussion questions. Use them in a classroom, a church hall or a living room." })]),
+          el("div", null, [el("h3", { text: "Free curriculum" }), el("p", { text: "The thread and eight chapters in plain language, with sources and discussion questions. Use them in a classroom, a church hall or a living room." })]),
           el("div", null, [el("h3", { text: "Skills registry" }), el("p", { text: "Tell us your trade, your languages and how much time you have. Schools, clinics and community projects across the diaspora can find you." })]),
           el("div", null, [el("h3", { text: "Proof of work" }), el("p", { text: "When you contribute, the people you helped sign it off, and it goes on a public record that cannot be quietly edited." })])
         ])
@@ -107,25 +93,125 @@
     ]);
   }
 
-  function renderLearn() {
-    return el("div", null, [
-      el("section", { class: "page-head" }, [
-        el("p", { class: "eyebrow", text: "The Connected Story" }),
-        el("h1", { text: "Eight stories they skipped in school" }),
-        el("p", { class: "lede", text: "In order of time, from the first Americans to Sankara. Each one starts with a 60-second version, then the full story if you want it." }),
-        el("p", { class: "draft", text: "Draft v0. These modules are written for review by historians before classroom use. Corrections are welcome." })
-      ]),
-      el("div", { class: "grid four" }, MODULES.map(moduleCard))
+  function step(title, text) {
+    return el("li", null, [el("strong", { text: title }), el("span", { text: text })]);
+  }
+
+  function firstOpen() {
+    for (var i = 0; i < CASES.length; i++) if (!answers[CASES[i].id]) return CASES[i];
+    return CASES[0];
+  }
+
+  function threadItem(c) {
+    var a = answers[c.id];
+    var status = a ? badge(c.verdict) : el("span", { class: "status", text: "Not judged yet" });
+    return el("li", null, [el("a", { href: "#" + c.id }, [
+      el("span", { class: "t-year", text: c.year }),
+      el("span", { class: "t-body" }, [
+        el("span", { class: "t-claim", text: c.claim }),
+        el("span", { class: "t-meta" }, [el("span", { class: "label", text: byId[c.chapter].kicker }), status])
+      ])
+    ])]);
+  }
+
+  // ---- One case ----------------------------------------------------------
+
+  function renderCase(c) {
+    var a = answers[c.id];
+    var ch = byId[c.chapter];
+    var next = CASES[c.n];
+
+    var progress = el("div", { class: "progress", "aria-hidden": "true" }, CASES.map(function (x) {
+      return el("span", { class: x.id === c.id ? "here" : (answers[x.id] ? "done" : "") });
+    }));
+
+    var head = el("header", { class: "case-head" }, [
+      el("a", { class: "back", href: "#", text: "The thread" }),
+      progress,
+      el("p", { class: "eyebrow", text: "Case " + c.n + " of " + CASES.length + " · " + c.year + " · " + ch.kicker }),
+      el("h1", { class: "claim", text: c.claim })
+    ]);
+
+    var body;
+    if (!a) {
+      body = el("section", { class: "ask" }, [
+        el("h2", { text: "Where do you stand?" }),
+        el("div", { class: "choices" }, ["supported", "partly", "not"].map(function (v) {
+          return on(el("button", { class: "choice", type: "button", text: VERDICTS[v] }), "click", function () {
+            answers[c.id] = v; save(); route();
+          });
+        })),
+        on(el("button", { class: "quiet", type: "button", text: "Show the evidence without answering" }), "click", function () {
+          answers[c.id] = "skip"; save(); route();
+        })
+      ]);
+    } else {
+      var you = a === "skip" ? "You chose not to answer." :
+        (a === c.verdict ? "You said " + VERDICTS[a].toLowerCase() + ". That matches the historians." :
+         "You said " + VERDICTS[a].toLowerCase() + ". The evidence points another way.");
+      body = el("div", { class: "reveal" }, [
+        el("p", { class: "you" }, [you + " ", on(el("button", { class: "quiet", type: "button", text: "Answer again" }), "click", function () {
+          delete answers[c.id]; save(); route();
+        })]),
+        el("section", { class: "block" }, [
+          el("h2", { text: "The evidence" }),
+          el("ul", { class: "evidence" }, c.evidence.map(function (e) {
+            return el("li", null, [el("span", { text: e[0] }), el("cite", { text: e[1] })]);
+          }))
+        ]),
+        el("section", { class: "block" }, [
+          el("h2", { text: "The strongest argument against" }),
+          el("p", { text: c.counter })
+        ]),
+        el("section", { class: "block verdict-block" }, [
+          el("h2", { text: "The verdict" }),
+          badge(c.verdict),
+          el("p", { text: c.verdictText }),
+          el("a", { class: "link-arrow", href: "#" + ch.id, text: "Go deeper: " + ch.title })
+        ]),
+        el("section", { class: "next-block" }, [
+          el("h2", { text: "What happened next" }),
+          el("p", { text: c.next }),
+          next
+            ? el("a", { class: "btn primary", href: "#" + next.id, text: "Case " + next.n + ": " + next.claim })
+            : el("a", { class: "btn primary", href: "#join", text: "Add yourself to the story" })
+        ])
+      ]);
+    }
+    return el("article", { class: "case" }, [head, body]);
+  }
+
+  // ---- Chapters ----------------------------------------------------------
+
+  // Rough reading time for a chapter, at 220 words a minute.
+  function readMinutes(m) {
+    var words = 0;
+    m.sections.forEach(function (s) { s.p.forEach(function (p) { words += p.split(/\s+/).length; }); });
+    return Math.max(1, Math.round(words / 220));
+  }
+
+  function casesIn(m) { return CASES.filter(function (c) { return c.chapter === m.id; }); }
+
+  function chapterCard(m) {
+    var n = casesIn(m).length;
+    return el("a", { class: "card", href: "#" + m.id }, [
+      el("span", { class: "label", text: m.kicker }),
+      el("span", { class: "card-title", text: m.title }),
+      el("span", { class: "card-sum", text: m.summary }),
+      el("span", { class: "card-foot", text: m.era + " · " + readMinutes(m) + " min read" + (n ? " · " + n + (n > 1 ? " cases" : " case") : "") })
     ]);
   }
 
-  // A button, not a #link: the hash is reserved for page routing.
-  function fullStoryButton(minutes) {
-    var b = el("button", { class: "fast-more", type: "button", text: "Read the full story · " + minutes + " min" });
-    b.addEventListener("click", function () {
-      document.getElementById("full-story").scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-    return b;
+  function renderLearn() {
+    return el("div", null, [
+      el("section", { class: "page-head" }, [
+        el("p", { class: "eyebrow", text: "Chapters" }),
+        el("h1", { text: "Read deeper" }),
+        el("p", { class: "lede", text: "Each chapter tells one part of the story in full, with key dates, people, sources and questions for discussion. In order of time." }),
+        el("p", { class: "draft", text: "Draft v0. Written for review by historians before classroom use. Corrections are welcome." })
+      ]),
+      el("div", { class: "grid four" }, MODULES.map(chapterCard))
+    ]);
   }
 
   function list(items, cls) {
@@ -135,6 +221,7 @@
   function renderModule(m) {
     var idx = MODULES.indexOf(m);
     var prev = MODULES[idx - 1], next = MODULES[idx + 1];
+    var cases = casesIn(m);
 
     var story = [];
     m.sections.forEach(function (s) {
@@ -156,29 +243,29 @@
       return el("li", null, [el("cite", { text: s[0] }), el("span", { text: s[1] })]);
     }));
 
-    var connects = el("div", { class: "connects" }, m.connects.map(function (id) {
-      return el("a", { href: "#" + id, text: byId[id].title });
-    }));
-
     return el("article", { class: "module" }, [
       el("header", { class: "module-head" }, [
-        el("a", { class: "back", href: "#learn", text: "All stories" }),
-        el("p", { class: "eyebrow", text: m.kicker + " · " + m.title + " · " + m.era }),
-        el("h1", { text: m.hook }),
-        el("p", { class: "dek", text: m.dek })
+        el("a", { class: "back", href: "#learn", text: "All chapters" }),
+        el("p", { class: "eyebrow", text: m.kicker + " · " + m.era + " · " + readMinutes(m) + " min read" }),
+        el("h1", { text: m.title }),
+        el("p", { class: "lede", text: m.summary })
       ]),
       el("section", { class: "fast", "aria-labelledby": "fast-h" }, [
-        el("h2", { id: "fast-h", text: "The 60-second version" }),
+        el("h2", { id: "fast-h", text: "Key points" }),
         el("ol", null, m.fast.map(function (f) { return el("li", { text: f }); })),
-        fullStoryButton(readMinutes(m))
+        cases.length ? el("div", { class: "fast-cases" }, [
+          el("p", { class: "label", text: "Test yourself" })
+        ].concat(cases.map(function (c) {
+          return el("a", { href: "#" + c.id, text: "Case " + c.n + ": " + c.claim });
+        }))) : null
       ]),
-      el("div", { class: "module-body", id: "full-story" }, [
-        el("div", { class: "story" }, [el("p", { class: "lede", text: m.summary })].concat(story, [
+      el("div", { class: "module-body" }, [
+        el("div", { class: "story" }, story.concat([
           el("h2", { text: "What people argue about" }),
-          list(m.debated, "debated"),
+          list(m.debated),
           el("h2", { text: "Why it matters to us" }),
           list(m.why),
-          el("h2", { text: "Talk about it" }),
+          el("h2", { text: "Questions for discussion" }),
           el("ol", { class: "questions" }, m.questions.map(function (q) { return el("li", { text: q }); })),
           el("h2", { text: "Read further" }),
           sources
@@ -189,12 +276,14 @@
           el("h3", { text: "People" }),
           people,
           el("h3", { text: "Connects to" }),
-          connects
+          el("div", { class: "connects" }, m.connects.map(function (id) {
+            return el("a", { href: "#" + id, text: byId[id].title });
+          }))
         ])
       ]),
-      el("nav", { class: "pager", "aria-label": "Module navigation" }, [
-        prev ? el("a", { href: "#" + prev.id }, [el("span", { text: "Previous" }), el("strong", { text: prev.title })]) : el("span"),
-        next ? el("a", { class: "next", href: "#" + next.id }, [el("span", { text: "Next" }), el("strong", { text: next.title })]) : el("span")
+      el("nav", { class: "pager", "aria-label": "Chapter navigation" }, [
+        prev ? el("a", { href: "#" + prev.id }, [el("span", { text: "Previous chapter" }), el("strong", { text: prev.title })]) : el("span"),
+        next ? el("a", { class: "next", href: "#" + next.id }, [el("span", { text: "Next chapter" }), el("strong", { text: next.title })]) : el("span")
       ])
     ]);
   }
@@ -372,15 +461,15 @@
     if (name === "learn") node = renderLearn();
     else if (name === "join") node = renderJoin();
     else if (byId[name]) { node = renderModule(byId[name]); nav = "learn"; }
-    else { node = renderHome(); nav = ""; }
+    else if (caseById[name]) { node = renderCase(caseById[name]); nav = ""; }
+    else { node = renderThread(); nav = ""; }
     view.innerHTML = "";
     view.appendChild(node);
     document.querySelectorAll(".nav a").forEach(function (a) {
       a.classList.toggle("on", a.getAttribute("href") === "#" + nav);
     });
-    window.scrollTo(0, 0);
   }
 
-  window.addEventListener("hashchange", route);
+  window.addEventListener("hashchange", function () { route(); window.scrollTo(0, 0); });
   route();
 })();

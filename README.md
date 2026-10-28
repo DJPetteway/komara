@@ -8,13 +8,20 @@ See [CHARTER.md](CHARTER.md).
 
 `docs/` is a free static website, with no build step:
 
-- **Learn**: eight modules of *The Connected Story*, written in plain language
-  and in time order: the first Americans; Florida's explorer logs; Spain, France
-  and Florida (Fort Mose); the Haudenosaunee between empires; the Haitian
-  Revolution; Dessalines; Haiti, the Louisiana Purchase and Florida; and Sankara.
-  Each has key dates, people, what's debated, why it matters, sources and
-  discussion questions. The content lives in `docs/modules.js`. These modules
-  are drafts for historians to review before classroom use.
+- **The thread** (home page): the curriculum's spine. It is 14 cases in time
+  order, from Florida 14,000 years ago to Sankara in 1987. Each case is a claim.
+  The learner judges it (supported, partly supported, not supported) before
+  seeing the evidence, the strongest counter-argument and the historians'
+  verdict. Then the case leads into the next one. Some claims hold up, some are
+  popular myths, and some are honestly contested. Answers stay in the learner's
+  own browser. The cases live in `docs/cases.js`.
+- **Chapters**: eight longer readings for depth: the first Americans; Florida's
+  explorer logs; Spain, France and Florida (Fort Mose); the Haudenosaunee
+  between empires; the Haitian Revolution; Dessalines; Haiti, the Louisiana
+  Purchase and Florida; and Sankara. Each has key points, key dates, people,
+  what's debated, sources and discussion questions. The content lives in
+  `docs/modules.js`. The cases and chapters are drafts for historians to review
+  before classroom use.
 - **Join the registry**: a skills form with dropdowns for field, trade,
   experience, country, heritage and availability, plus contact details and
   verification (a public profile, an optional reference, and license details).
