@@ -25,30 +25,60 @@
     return node;
   }
 
+  // Rough reading time for the full story, at 220 words a minute.
+  function readMinutes(m) {
+    var words = 0;
+    m.sections.forEach(function (s) { s.p.forEach(function (p) { words += p.split(/\s+/).length; }); });
+    return Math.max(1, Math.round(words / 220));
+  }
+
+  function kicker(m) {
+    return el("span", { class: "kicker", text: m.kicker });
+  }
+
   function moduleCard(m) {
     return el("a", { class: "card", href: "#" + m.id }, [
-      el("span", { class: "era", text: m.era }),
-      el("span", { class: "card-title", text: m.title }),
-      el("span", { class: "card-place", text: m.place }),
-      el("span", { class: "card-sum", text: m.summary })
+      el("span", { class: "card-meta" }, [kicker(m), el("span", { class: "era", text: m.era })]),
+      el("span", { class: "card-title", text: m.hook }),
+      el("span", { class: "card-sum", text: m.dek }),
+      el("span", { class: "card-foot", text: m.title + " · 60-second version, or " + readMinutes(m) + " min full story" })
     ]);
   }
 
+  // Front page order: lead story, two seconds, then the rest as a headline list.
+  var FRONT = ["spain-france-florida", "haitian-revolution", "louisiana-florida", "sankara",
+               "dessalines", "florida-explorers", "haudenosaunee", "first-americans"];
+
   function renderHome() {
-    var pick = ["spain-france-florida", "haitian-revolution", "sankara"].map(function (id) { return byId[id]; });
+    var stories = FRONT.map(function (id) { return byId[id]; });
+    var lead = stories[0], seconds = stories.slice(1, 3), rest = stories.slice(3);
     return el("div", { class: "home" }, [
+      el("section", { class: "front" }, [
+        el("p", { class: "eyebrow", text: "Komara Project · from Florida · history they skipped" }),
+        el("a", { class: "lead", href: "#" + lead.id }, [
+          kicker(lead),
+          el("h1", { class: "headline", text: lead.hook }),
+          el("p", { class: "dek", text: lead.dek }),
+          el("span", { class: "btn primary", text: "Read it in 60 seconds" })
+        ]),
+        el("div", { class: "seconds" }, seconds.map(function (m) {
+          return el("a", { class: "second", href: "#" + m.id }, [
+            kicker(m),
+            el("h2", { class: "headline", text: m.hook }),
+            el("p", { class: "dek", text: m.dek })
+          ]);
+        })),
+        el("ol", { class: "wire" }, rest.map(function (m) {
+          return el("li", null, [el("a", { href: "#" + m.id }, [kicker(m), el("span", { text: m.hook })])]);
+        }))
+      ]),
       el("section", { class: "hero" }, [
-        el("p", { class: "eyebrow", text: "Komara Project · from Florida" }),
-        el("h1", { text: "The connected story of the diaspora, free to learn." }),
-        el("p", { class: "lede", text: "Every community learns its own piece of the story. Komara teaches how the pieces join: Florida’s first free Black town, the revolution that founded Haiti, the president who renamed Burkina Faso, and the peoples who reached the Americas long before Columbus." }),
+        el("h2", { text: "The connected story of the diaspora, free to learn." }),
+        el("p", { class: "lede", text: "Every community learns its own piece of the story. Komara teaches how the pieces join, from Florida to Haiti to Burkina Faso and across the Afro-Latin world." }),
         el("div", { class: "actions" }, [
-          el("a", { class: "btn primary", href: "#learn", text: "Start learning" }),
+          el("a", { class: "btn primary", href: "#learn", text: "See all eight stories" }),
           el("a", { class: "btn", href: "#join", text: "Join the skills registry" })
         ])
-      ]),
-      el("section", { class: "band" }, [
-        el("h2", { text: "Start with one of these" }),
-        el("div", { class: "grid three" }, pick.map(moduleCard))
       ]),
       el("section", { class: "band pillars" }, [
         el("h2", { text: "What Komara offers" }),
@@ -65,12 +95,21 @@
     return el("div", null, [
       el("section", { class: "page-head" }, [
         el("p", { class: "eyebrow", text: "The Connected Story" }),
-        el("h1", { text: "Modules" }),
-        el("p", { class: "lede", text: "In order of time, from the first Americans to Sankara. Each module takes about 20 minutes to read and works on its own." }),
+        el("h1", { class: "headline", text: "Eight Stories They Skipped in School" }),
+        el("p", { class: "lede", text: "In order of time, from the first Americans to Sankara. Each one starts with a 60-second version, then the full story if you want it." }),
         el("p", { class: "draft", text: "Draft v0. These modules are written for review by historians before classroom use. Corrections are welcome." })
       ]),
       el("div", { class: "grid two" }, MODULES.map(moduleCard))
     ]);
+  }
+
+  // A button, not a #link: the hash is reserved for page routing.
+  function fullStoryButton(minutes) {
+    var b = el("button", { class: "fast-more", type: "button", text: "Read the full story · " + minutes + " min" });
+    b.addEventListener("click", function () {
+      document.getElementById("full-story").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    return b;
   }
 
   function list(items, cls) {
@@ -107,13 +146,18 @@
 
     return el("article", { class: "module" }, [
       el("header", { class: "module-head" }, [
-        el("a", { class: "back", href: "#learn", text: "All modules" }),
-        el("p", { class: "eyebrow", text: m.era + " · " + m.place }),
-        el("h1", { text: m.title }),
-        el("p", { class: "lede", text: m.summary })
+        el("a", { class: "back", href: "#learn", text: "All stories" }),
+        el("p", { class: "card-meta" }, [kicker(m), el("span", { class: "era", text: m.title + " · " + m.era })]),
+        el("h1", { class: "headline", text: m.hook }),
+        el("p", { class: "dek", text: m.dek })
       ]),
-      el("div", { class: "module-body" }, [
-        el("div", { class: "story" }, story.concat([
+      el("section", { class: "fast", "aria-labelledby": "fast-h" }, [
+        el("h2", { id: "fast-h", text: "The 60-second version" }),
+        el("ol", null, m.fast.map(function (f) { return el("li", { text: f }); })),
+        fullStoryButton(readMinutes(m))
+      ]),
+      el("div", { class: "module-body", id: "full-story" }, [
+        el("div", { class: "story" }, [el("p", { class: "lede", text: m.summary })].concat(story, [
           el("h2", { text: "What people argue about" }),
           list(m.debated, "debated"),
           el("h2", { text: "Why it matters to us" }),

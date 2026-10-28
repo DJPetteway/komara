@@ -11,6 +11,8 @@
   --brass: #8a6410;
   --wash: #e7e9f4;
   --danger: #a32222;
+  --hot: #c0322a;
+  --hot-ink: #ffffff;
 
   --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
   --body: "Newsreader", Georgia, "Times New Roman", serif;
@@ -26,12 +28,14 @@
   :root:not([data-theme="light"]) {
     --bg: #0f1120; --surface: #171a2c; --ink: #e7e8f3; --muted: #a2a7c2; --line: #2a2f48;
     --accent: #95a5ff; --accent-ink: #0f1120; --brass: #e2b552; --wash: #1e2238; --danger: #ff8a8a;
+    --hot: #ff6f61; --hot-ink: #0f1120;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #0f1120; --surface: #171a2c; --ink: #e7e8f3; --muted: #a2a7c2; --line: #2a2f48;
   --accent: #95a5ff; --accent-ink: #0f1120; --brass: #e2b552; --wash: #1e2238; --danger: #ff8a8a;
+    --hot: #ff6f61; --hot-ink: #0f1120;
   color-scheme: dark;
 }
 
@@ -96,6 +100,39 @@ main .wrap { padding-block: 2.5rem 4rem; }
 .btn.primary { background: var(--accent); color: var(--accent-ink); }
 .btn:hover { filter: brightness(1.08); }
 
+/* Front page: tabloid headlines in a condensed heavy cut */
+.headline { font-stretch: 75%; font-weight: 800; letter-spacing: -0.01em; line-height: 1.02; text-transform: uppercase; }
+.kicker {
+  display: inline-block; justify-self: start; font-family: var(--mono); font-size: 0.72rem; font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.1em; color: var(--hot-ink); background: var(--hot);
+  padding: 0.15rem 0.5rem; border-radius: 0.2rem;
+}
+.dek { font-size: var(--step-1); color: var(--muted); max-width: var(--measure); line-height: 1.45; }
+.front { display: grid; gap: 1.75rem; }
+.front a { color: var(--ink); text-decoration: none; }
+.lead { display: grid; gap: 1rem; padding-bottom: 1.75rem; border-bottom: 3px solid var(--ink); }
+.lead .headline { font-size: clamp(2.6rem, 8.5vw, 5.6rem); max-width: 16ch; }
+.lead:hover .headline, .second:hover .headline, .wire a:hover span { color: var(--accent); }
+.lead .btn { justify-self: start; }
+.seconds { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: 1.75rem 2.5rem; }
+.second { display: grid; gap: 0.6rem; align-content: start; min-width: 0; }
+.second .headline { font-size: clamp(1.7rem, 4vw, 2.4rem); }
+.second .dek { font-size: 1rem; }
+.wire { list-style: none; margin: 0; padding: 1.25rem 0 0; border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 1.25rem 2rem; }
+.wire a { display: grid; gap: 0.45rem; }
+.wire span:last-child { font-family: var(--display); font-stretch: 75%; font-weight: 800; text-transform: uppercase; font-size: 1.3rem; line-height: 1.05; }
+.hero h2 { font-size: var(--step-2); }
+
+/* 60-second version */
+.fast { display: grid; gap: 1rem; padding: 1.5rem; border: 3px solid var(--ink); border-radius: 0.6rem; background: var(--surface); max-width: 52rem; margin-bottom: 3rem; }
+.fast h2 { font-family: var(--mono); font-size: 0.85rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--hot); }
+.fast ol { margin: 0; padding: 0; list-style: none; counter-reset: fast; display: grid; gap: 0.9rem; }
+.fast li { counter-increment: fast; display: grid; grid-template-columns: 2.2rem minmax(0, 1fr); gap: 0.5rem; font-size: var(--step-1); line-height: 1.4; }
+.fast li::before { content: counter(fast); font-family: var(--display); font-stretch: 75%; font-weight: 800; font-size: 1.8rem; line-height: 1; color: var(--hot); }
+.fast-more { justify-self: start; font: inherit; font-family: var(--display); font-weight: 650; color: var(--accent); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.module-head .headline { font-size: clamp(2.2rem, 6vw, 4rem); }
+.module-body { scroll-margin-top: 1rem; }
+
 /* Grids and cards */
 .grid { display: grid; gap: 1rem; }
 .grid.two { grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr)); }
@@ -106,8 +143,10 @@ main .wrap { padding-block: 2.5rem 4rem; }
   color: var(--ink); text-decoration: none;
 }
 .card:hover { border-color: var(--accent); }
+.card-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.75rem; margin: 0; }
+.card-foot { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); }
 .era { font-family: var(--mono); font-size: 0.78rem; color: var(--brass); letter-spacing: 0.04em; }
-.card-title { font-family: var(--display); font-weight: 700; font-size: var(--step-1); line-height: 1.2; }
+.card-title { font-family: var(--display); font-stretch: 75%; font-weight: 800; text-transform: uppercase; font-size: 1.6rem; line-height: 1.05; }
 .card-place { font-size: 0.9rem; color: var(--muted); font-style: italic; }
 .card-sum { color: var(--muted); font-size: 0.98rem; }
 

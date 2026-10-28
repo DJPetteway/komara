@@ -1,12 +1,21 @@
 // The Connected Story — education modules.
 // Draft v0: written for review by historians before classroom use.
-// Each module: summary, story sections, key dates, people, what's debated,
+// Each module: a headline (kicker, hook, dek), a 60-second version (fast), summary, story sections, key dates, people, what's debated,
 // why it matters, sources, discussion questions, and links to other modules.
 
 window.KOMARA_MODULES = [
   {
     id: "first-americans",
     title: "The First Americans",
+    kicker: "Origins",
+    hook: "Amazon Peoples Carry DNA Linked to Melanesia",
+    dek: "Thousands of miles of ocean apart, the genetic link is real. How it got there is still a mystery.",
+    fast: [
+      "People reached Florida more than 14,000 years ago. They hunted mastodons near Tallahassee.",
+      "Some Amazon peoples share a trace of ancestry with Melanesians and Aboriginal Australians.",
+      "Skull shape once suggested an African-looking “Luzia.” Her community’s DNA said Native American.",
+      "No evidence yet shows Africans crossed before Columbus. The question stays open if evidence turns up."
+    ],
     era: "23,000+ years ago – today",
     place: "The Americas, Siberia, the Pacific",
     summary:
@@ -99,6 +108,15 @@ window.KOMARA_MODULES = [
   {
     id: "florida-explorers",
     title: "Reading the Explorers' Logs",
+    kicker: "Florida",
+    hook: "The First African to Cross North America Started in Tampa Bay",
+    dek: "In 1528 an enslaved Moroccan man named Estevanico landed near Tampa Bay. Eight years later he walked into Mexico City, one of only four survivors.",
+    fast: [
+      "Africans were on Florida’s first expeditions, not added to the story later.",
+      "Ponce de León never wrote about a Fountain of Youth. Later writers added it.",
+      "The Calusa of southwest Florida drove off the Spanish, and a Calusa arrow killed Ponce de León.",
+      "Every explorer’s log was written to win something. Read them like that."
+    ],
     era: "1513 – 1565",
     place: "Florida and the Gulf Coast",
     summary:
@@ -187,6 +205,15 @@ window.KOMARA_MODULES = [
   {
     id: "spain-france-florida",
     title: "Spain, France and Florida",
+    kicker: "Florida",
+    hook: "The Underground Railroad Ran South — to Florida",
+    dek: "Before the United States existed, Spanish Florida promised freedom to people escaping slavery. In 1738 they built Fort Mose, the first free Black town in what is now the US.",
+    fast: [
+      "Spain offered freedom in 1693 to anyone escaping slavery in the English colonies.",
+      "Fort Mose, near St. Augustine, was led by Francisco Menéndez, a Mandinga man from West Africa.",
+      "In 1740 its Black militia helped beat a British invasion.",
+      "Florida’s first free Black town spoke Spanish. Afro-Latino history is Florida history."
+    ],
     era: "1562 – 1821",
     place: "St. Augustine, Fort Caroline, Fort Mose, Pensacola",
     summary:
@@ -267,6 +294,15 @@ window.KOMARA_MODULES = [
   {
     id: "haudenosaunee",
     title: "The Haudenosaunee Between Empires",
+    kicker: "Native nations",
+    hook: "The Native Nations That Told the Colonies to Unite",
+    dek: "In 1744 an Onondaga speaker told British colonists to unite like the Iroquois Confederacy. Benjamin Franklin printed his words.",
+    fast: [
+      "Six nations kept their power for a century by playing France and Britain against each other.",
+      "Clan mothers chose their chiefs, and could remove them.",
+      "In 1988 the US Congress formally credited the Confederacy’s influence on the Constitution. Historians still argue over how much.",
+      "A confederation of nations between rival empires is a very old strategy."
+    ],
     era: "1600s – 1783",
     place: "Present-day New York, Pennsylvania, Ontario and Quebec",
     summary:
@@ -345,6 +381,15 @@ window.KOMARA_MODULES = [
   {
     id: "haitian-revolution",
     title: "The Haitian Revolution",
+    kicker: "Haiti",
+    hook: "They Beat Napoleon. Then France Sent Them the Bill.",
+    dek: "Enslaved people defeated three empires and founded Haiti in 1804. In 1825, France sent warships and made Haiti pay for its own freedom.",
+    fast: [
+      "About 500,000 enslaved people rose up in France’s richest colony in 1791.",
+      "They defeated the French, Spanish and British armies.",
+      "Haiti became independent on 1 January 1804, the first nation founded by people who freed themselves from slavery.",
+      "France demanded 150 million francs in 1825. The cost to Haiti’s economy is estimated at $21–115 billion."
+    ],
     era: "1791 – 1804",
     place: "Saint-Domingue (Haiti)",
     summary:
@@ -434,6 +479,15 @@ window.KOMARA_MODULES = [
   {
     id: "dessalines",
     title: "Jean-Jacques Dessalines",
+    kicker: "Haiti",
+    hook: "He Tore the White Out of the French Flag",
+    dek: "Jean-Jacques Dessalines went from the cane fields to declaring Haiti free. Two years later he was assassinated, and he is still argued over today.",
+    fast: [
+      "Born enslaved around 1758, he became the general who won Haiti’s independence.",
+      "In 1803 he ripped the white stripe from the French flag. That blue and red is still Haiti’s flag.",
+      "His 1805 constitution called every Haitian “Black,” whatever their color.",
+      "He also ordered the killing of most remaining French colonists in 1804. Honor the founder, learn the whole record."
+    ],
     era: "c. 1758 – 1806",
     place: "Haiti",
     summary:
@@ -512,6 +566,15 @@ window.KOMARA_MODULES = [
   {
     id: "louisiana-florida",
     title: "Haiti, the Louisiana Purchase and Florida",
+    kicker: "Haiti × Florida",
+    hook: "America Doubled in Size — Thanks to Haiti",
+    dek: "Napoleon lost his army in Haiti and sold Louisiana for $15 million. Then the US came for Florida and destroyed its free Black communities.",
+    fast: [
+      "Without Haiti, Napoleon had no reason to keep Louisiana. He sold it in 1803.",
+      "The US claimed part of Spanish Florida, then invaded. Spain gave Florida up in 1819.",
+      "In 1816 a US attack blew up a free Black fort on the Apalachicola River, killing about 270 people.",
+      "Black Seminole descendants live today in the Bahamas, Oklahoma, Texas and Mexico."
+    ],
     era: "1800 – 1858",
     place: "New Orleans, West Florida, the Apalachicola River, Andros Island",
     summary:
@@ -598,6 +661,15 @@ window.KOMARA_MODULES = [
   {
     id: "sankara",
     title: "Thomas Sankara",
+    kicker: "Burkina Faso",
+    hook: "The President Who Sold the Government’s Mercedes",
+    dek: "Thomas Sankara drove a Renault 5, vaccinated 2.5 million children and told Africa not to pay its debts. Four years in, he was killed.",
+    fast: [
+      "He renamed his country Burkina Faso: “land of upright people.”",
+      "He banned forced marriage and female genital cutting and put women in government.",
+      "In 1987 he told African leaders their debt should not be repaid. Months later he was killed in a coup.",
+      "He held no elections and cracked down on critics. Both sides are part of his story."
+    ],
     era: "1949 – 1987",
     place: "Burkina Faso",
     summary:
