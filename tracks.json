@@ -1,0 +1,38 @@
+{
+  "source": "Russia-Africa Economic and Humanitarian Forum, 28-29 October 2026 - business programme tracks",
+  "agenda2063_aspirations": {
+    "1": "A prosperous Africa based on inclusive growth and sustainable development",
+    "2": "An integrated continent, politically united, based on the ideals of Pan-Africanism",
+    "3": "An Africa of good governance, democracy, human rights, justice and the rule of law",
+    "4": "A peaceful and secure Africa",
+    "5": "An Africa with a strong cultural identity, common heritage, values and ethics",
+    "6": "People-driven development, relying on the potential of women and youth",
+    "7": "Africa as a strong, united, resilient and influential global player and partner"
+  },
+  "tracks": [
+    {
+      "id": "sovereignty",
+      "name": "Sovereignty: the Foundation of Sustainable Development",
+      "focus": ["regional stability", "countering neocolonialism", "epidemics", "inter-party dialogue"],
+      "aspirations": [2, 3, 4, 7]
+    },
+    {
+      "id": "economy",
+      "name": "The Economy of a Sovereign World Order",
+      "focus": ["BRICS and EAEU agenda for Africa", "industrial development", "agriculture", "logistics"],
+      "aspirations": [1, 2, 7]
+    },
+    {
+      "id": "society",
+      "name": "Cooperation in Society and Human Capital",
+      "focus": ["education", "healthcare", "science", "art and culture", "traditional values", "municipal interaction"],
+      "aspirations": [5, 6]
+    },
+    {
+      "id": "technology",
+      "name": "Technology and Innovation for a Better Quality of Life",
+      "focus": ["smart cities", "artificial intelligence", "nuclear energy", "space", "climate management", "soil restoration", "water cleaning"],
+      "aspirations": [1, 6]
+    }
+  ]
+}
