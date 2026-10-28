@@ -52,49 +52,94 @@
     return el("span", { class: "verdict v-" + verdict, text: VERDICTS[verdict] });
   }
 
-  // ---- The thread (home) -------------------------------------------------
+  // ---- Splash (home) ----------------------------------------------------
 
-  function renderThread() {
-    var sc = score();
-    return el("div", { class: "home" }, [
-      el("section", { class: "hero" }, [
-        el("p", { class: "eyebrow", text: "Komara Project · free diaspora curriculum" }),
-        el("h1", { text: "The connected story of the diaspora." }),
-        el("p", { class: "lede", text: "One thread of history, from Florida to Haiti to Burkina Faso. Each step is a claim. Decide whether it holds up, then weigh the evidence." }),
-        el("div", { class: "actions" }, [
-          el("a", { class: "btn primary", href: "#" + firstOpen().id, text: sc.judged ? "Continue the thread" : "Start the thread" }),
-          el("a", { class: "btn", href: "#learn", text: "Read the chapters" })
-        ])
-      ]),
-      el("section", { class: "method" }, [
-        el("ol", { class: "steps" }, [
-          step("Judge the claim", "Before you see anything else, say whether you think it is supported."),
-          step("Weigh the evidence", "Read the sources and the strongest argument against."),
-          step("See the verdict", "Compare your judgment with what historians can show. Then follow the thread to what happened next.")
-        ])
-      ]),
-      el("section", { class: "band" }, [
-        el("div", { class: "band-head" }, [
-          el("h2", { text: "The thread" }),
-          el("p", { class: "muted", text: CASES.length + " cases, oldest first. " + (sc.judged
-            ? "You have judged " + sc.judged + " and matched the historians on " + sc.matched + "."
-            : "Start anywhere, though each case leads into the next.") })
-        ]),
-        el("ol", { class: "thread" }, CASES.map(threadItem))
-      ]),
-      el("section", { class: "band pillars" }, [
-        el("h2", { text: "What Komara offers" }),
-        el("div", { class: "grid three plain" }, [
-          el("div", null, [el("h3", { text: "Free curriculum" }), el("p", { text: "The thread and eight chapters in plain language, with sources and discussion questions. Use them in a classroom, a church hall or a living room." })]),
-          el("div", null, [el("h3", { text: "Skills registry" }), el("p", { text: "Tell us your trade, your languages and how much time you have. Schools, clinics and community projects across the diaspora can find you." })]),
-          el("div", null, [el("h3", { text: "Proof of work" }), el("p", { text: "When you contribute, the people you helped sign it off, and it goes on a public record that cannot be quietly edited." })])
-        ])
-      ])
+  var DOORS = [
+    ["study", "Study", "The connected story of the diaspora, one claim at a time."],
+    ["join", "Join", "Put your skills on the map for schools, clinics and communities."],
+    ["reform", "Reform", "Take on the problems the diaspora has lived with for years."]
+  ];
+
+  function renderSplash() {
+    return el("div", { class: "splash" }, [
+      el("p", { class: "eyebrow", text: "Est. Florida · 2026" }),
+      el("h1", { class: "wordmark", text: "Komara" }),
+      el("p", { class: "splash-line", text: "An open institution for the global African diaspora, from Florida to Haiti to the Sahel." }),
+      el("nav", { class: "doors", "aria-label": "Sections" }, DOORS.map(function (d) {
+        return el("a", { class: "door", href: "#" + d[0] }, [
+          el("span", { class: "door-title", text: d[1] }),
+          el("span", { class: "door-text", text: d[2] })
+        ]);
+      }))
     ]);
   }
 
-  function step(title, text) {
-    return el("li", null, [el("strong", { text: title }), el("span", { text: text })]);
+  // ---- Study: the thread -------------------------------------------------
+
+  function studyTabs(current) {
+    return el("div", { class: "tabs", role: "navigation", "aria-label": "Study" }, [
+      el("a", { href: "#study", class: current === "study" ? "on" : "", text: "The thread" }),
+      el("a", { href: "#learn", class: current === "learn" ? "on" : "", text: "Chapters" })
+    ]);
+  }
+
+  function renderStudy() {
+    var sc = score();
+    return el("div", null, [
+      el("section", { class: "page-head" }, [
+        el("p", { class: "eyebrow", text: "Study" }),
+        el("h1", { class: "title", text: "The thread" }),
+        el("p", { class: "lede", text: CASES.length + " claims, oldest first. Judge each one, weigh the evidence, see the verdict." }),
+        el("div", { class: "actions" }, [
+          el("a", { class: "btn primary", href: "#" + firstOpen().id, text: sc.judged ? "Continue" : "Begin" }),
+          sc.judged ? el("span", { class: "score", text: "Judged " + sc.judged + " · matched the historians on " + sc.matched }) : null
+        ])
+      ]),
+      studyTabs("study"),
+      el("ol", { class: "thread" }, CASES.map(threadItem))
+    ]);
+  }
+
+  // ---- Reform ------------------------------------------------------------
+
+  var REFORMS = [
+    ["Our history is taught in fragments.", "One free curriculum that connects Florida, Haiti, the Sahel and the Afro-Latin world.", "Translate the thread into Kreyòl, French, Spanish and Portuguese."],
+    ["Diaspora skills are invisible to the places that need them.", "An open registry of verified skills.", "Add yourself to the registry."],
+    ["Contributions go unrecorded.", "A public record of work, signed off by the people it served.", "Record the first contributions this season."],
+    ["Our communities rarely meet each other.", "Komara Circles: local study groups that use one shared format, anywhere.", "Host the first Circle in your city."],
+    ["Our classrooms never meet.", "Classrooms in Florida, Haiti and Burkina Faso study the same case on the same day, together.", "Find three partner schools."]
+  ];
+
+  var PRINCIPLES = [
+    ["Sovereignty first", "Each nation sets its own priorities. Komara contributes; it does not dictate."],
+    ["Independence", "No party, government or foreign power directs Komara."],
+    ["One people, many places", "The continent and the diaspora are one constituency, in every language."],
+    ["Accountability in public", "What Komara promises and delivers is on the record."],
+    ["Contribution over credentials", "People are judged by what they put forward and deliver."]
+  ];
+
+  function renderReform() {
+    return el("div", null, [
+      el("section", { class: "page-head" }, [
+        el("p", { class: "eyebrow", text: "Reform" }),
+        el("h1", { class: "title", text: "Reform" }),
+        el("p", { class: "lede", text: "Five problems the diaspora has lived with for years, and what Komara proposes. Each is open to anyone." })
+      ]),
+      el("ol", { class: "reforms" }, REFORMS.map(function (r) {
+        return el("li", null, [
+          el("p", { class: "r-problem", text: r[0] }),
+          el("p", { class: "r-proposal", text: r[1] }),
+          el("p", { class: "r-step" }, [el("span", { class: "label", text: "First step" }), " " + r[2]])
+        ]);
+      })),
+      el("section", { class: "band principles" }, [
+        el("h2", { text: "Principles" }),
+        el("dl", null, PRINCIPLES.reduce(function (acc, pr) {
+          return acc.concat([el("dt", { text: pr[0] }), el("dd", { text: pr[1] })]);
+        }, []))
+      ]),
+      el("div", { class: "actions" }, [el("a", { class: "btn primary", href: "#join", text: "Take part" })])
+    ]);
   }
 
   function firstOpen() {
@@ -126,7 +171,7 @@
     }));
 
     var head = el("header", { class: "case-head" }, [
-      el("a", { class: "back", href: "#", text: "The thread" }),
+      el("a", { class: "back", href: "#study", text: "The thread" }),
       progress,
       el("p", { class: "eyebrow", text: "Case " + c.n + " of " + CASES.length + " · " + c.year + " · " + ch.kicker }),
       el("h1", { class: "claim", text: c.claim })
@@ -205,11 +250,12 @@
   function renderLearn() {
     return el("div", null, [
       el("section", { class: "page-head" }, [
-        el("p", { class: "eyebrow", text: "Chapters" }),
-        el("h1", { text: "Read deeper" }),
-        el("p", { class: "lede", text: "Each chapter tells one part of the story in full, with key dates, people, sources and questions for discussion. In order of time." }),
+        el("p", { class: "eyebrow", text: "Study" }),
+        el("h1", { class: "title", text: "Chapters" }),
+        el("p", { class: "lede", text: "Eight longer readings, in order of time, with dates, people, sources and questions." }),
         el("p", { class: "draft", text: "Draft v0. Written for review by historians before classroom use. Corrections are welcome." })
       ]),
+      studyTabs("learn"),
       el("div", { class: "grid four" }, MODULES.map(chapterCard))
     ]);
   }
@@ -391,8 +437,8 @@
     return el("div", null, [
       el("section", { class: "page-head" }, [
         el("p", { class: "eyebrow", text: "Skills registry" }),
-        el("h1", { text: "Put your skills on the map" }),
-        el("p", { class: "lede", text: "Teachers, nurses, electricians, farmers, coders, musicians: the diaspora has every skill a nation needs. Register once, and schools, clinics and community projects can find you. Takes about three minutes." }),
+        el("h1", { class: "title", text: "Join" }),
+        el("p", { class: "lede", text: "The diaspora has every skill a nation needs. Register once, and schools, clinics and community projects can find you. About three minutes." }),
         REG.endpoint ? null : el("p", { class: "draft", text: "Preview mode. Submissions are not sent anywhere yet; you will see the record that would be stored." })
       ]),
       form,
@@ -458,11 +504,14 @@
   function route() {
     var name = (location.hash || "").replace(/^#/, "");
     var node, nav = name;
-    if (name === "learn") node = renderLearn();
+    if (name === "study") node = renderStudy();
+    else if (name === "learn") { node = renderLearn(); nav = "study"; }
     else if (name === "join") node = renderJoin();
-    else if (byId[name]) { node = renderModule(byId[name]); nav = "learn"; }
-    else if (caseById[name]) { node = renderCase(caseById[name]); nav = ""; }
-    else { node = renderThread(); nav = ""; }
+    else if (name === "reform") node = renderReform();
+    else if (byId[name]) { node = renderModule(byId[name]); nav = "study"; }
+    else if (caseById[name]) { node = renderCase(caseById[name]); nav = "study"; }
+    else { node = renderSplash(); nav = ""; }
+    document.body.classList.toggle("is-splash", nav === "" );
     view.innerHTML = "";
     view.appendChild(node);
     document.querySelectorAll(".nav a").forEach(function (a) {

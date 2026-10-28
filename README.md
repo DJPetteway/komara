@@ -6,7 +6,9 @@ See [CHARTER.md](CHARTER.md).
 
 ## The Komara Project site
 
-`docs/` is a free static website, with no build step:
+`docs/` is a free static website, with no build step. It opens on a short splash
+page with three doors: **Study**, **Join** and **Reform**.
+
 
 - **The thread** (home page): the curriculum's spine. It is 14 cases in time
   order, from Florida 14,000 years ago to Sankara in 1987. Each case is a claim.
@@ -22,7 +24,9 @@ See [CHARTER.md](CHARTER.md).
   what's debated, sources and discussion questions. The content lives in
   `docs/modules.js`. The cases and chapters are drafts for historians to review
   before classroom use.
-- **Join the registry**: a skills form with dropdowns for field, trade,
+- **Reform**: five long-standing problems, what Komara proposes for each and the
+  first step, plus Komara's principles.
+- **Join** (the skills registry): a skills form with dropdowns for field, trade,
   experience, country, heritage and availability, plus contact details and
   verification (a public profile, an optional reference, and license details).
   The choices live in `docs/registry.js`. Until `endpoint` is set to a form

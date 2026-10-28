@@ -1,5 +1,5 @@
-/* Layout: a quiet study library. Serif headings and reading text, a plain sans for
-   interface labels, hairline rules, one muted indigo accent, generous whitespace. */
+/* Layout: a quiet public institution. Roman capitals for the name and page titles,
+   a book serif for reading, a civic sans for labels, hairline rules, one muted accent. */
 :root {
   --bg: #f6f6f3;
   --surface: #ffffff;
@@ -15,7 +15,8 @@
   --v-part: #8a6a1f;
   --v-no: #9a3b33;
 
-  --serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --display: "Marcellus", "Trajan Pro", "Optima", Georgia, serif;
+  --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
   --sans: "Public Sans", "Helvetica Neue", "Segoe UI", system-ui, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
@@ -55,7 +56,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
-h1, h2, h3 { font-family: var(--serif); font-weight: 500; line-height: 1.18; text-wrap: balance; margin: 0; }
+h1, h2, h3 { font-family: var(--serif); font-weight: 600; line-height: 1.18; text-wrap: balance; margin: 0; }
 h1 { font-size: var(--step-3); letter-spacing: -0.015em; }
 h2 { font-size: var(--step-2); letter-spacing: -0.01em; }
 h3 { font-size: var(--step-1); }
@@ -71,8 +72,7 @@ p { margin: 0; }
 /* Header */
 .top { border-bottom: 1px solid var(--line); background: var(--bg); }
 .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding-block: 1rem; }
-.brand { font-family: var(--serif); font-weight: 600; font-size: 1.3rem; color: var(--ink); text-decoration: none; }
-.brand span { color: var(--muted); font-weight: 400; }
+.brand { font-family: var(--display); font-size: 1.15rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
 .nav { display: flex; gap: 1.5rem; flex-wrap: wrap; }
 .nav a { font-family: var(--sans); font-size: 0.92rem; color: var(--muted); text-decoration: none; padding-block: 0.25rem; border-bottom: 1.5px solid transparent; }
 .nav a:hover { color: var(--ink); }
@@ -102,25 +102,42 @@ main .wrap { padding-block: 3.5rem 5rem; }
 .link-arrow { font-family: var(--sans); font-weight: 600; font-size: 0.95rem; color: var(--accent); }
 .link-arrow::after { content: " →"; }
 
-/* Home */
-.home { display: grid; gap: 4.5rem; }
-.hero { display: grid; gap: 1.25rem; max-width: 46rem; }
-.hero h1 { font-size: clamp(2.5rem, 6vw, 4rem); }
-.actions { display: flex; gap: 0.75rem; flex-wrap: wrap; padding-top: 0.25rem; }
-.facts { font-family: var(--sans); font-size: 0.85rem; color: var(--muted); }
+/* Splash */
+body.is-splash .top { display: none; }
+.splash { display: grid; justify-items: center; text-align: center; gap: 1.5rem; padding-block: clamp(2rem, 9vh, 6rem) 1rem; }
+.wordmark { font-family: var(--display); font-weight: 400; font-size: clamp(3.4rem, 13vw, 8rem); letter-spacing: 0.2em; text-transform: uppercase; line-height: 1; margin-right: -0.2em; }
+.splash-line { font-size: var(--step-1); color: var(--muted); max-width: 30rem; line-height: 1.5; }
+.doors { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; max-width: 58rem; margin-top: 2.5rem; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.door { display: grid; gap: 0.6rem; align-content: start; padding: 2rem 1.5rem; color: var(--ink); text-decoration: none; }
+.door + .door { border-left: 1px solid var(--line); }
+.door-title { font-family: var(--display); font-size: 1.6rem; letter-spacing: 0.16em; text-transform: uppercase; }
+.door-title::after { content: " →"; letter-spacing: 0; color: var(--label); }
+.door-text { color: var(--muted); font-size: 0.98rem; line-height: 1.5; }
+.door:hover .door-title { color: var(--accent); }
 
+/* Page titles */
+.title { font-family: var(--display); font-weight: 400; letter-spacing: 0.06em; }
+.actions { display: flex; gap: 0.75rem 1.25rem; flex-wrap: wrap; align-items: center; padding-top: 0.25rem; }
+.score { font-family: var(--sans); font-size: 0.88rem; color: var(--muted); }
+.tabs { display: flex; gap: 1.75rem; border-bottom: 1px solid var(--line); margin-bottom: 1rem; }
+.tabs a { font-family: var(--sans); font-size: 0.92rem; color: var(--muted); text-decoration: none; padding-bottom: 0.7rem; margin-bottom: -1px; border-bottom: 1.5px solid transparent; }
+.tabs a.on { color: var(--ink); border-bottom-color: var(--accent); }
 .band { display: grid; gap: 1.5rem; }
 .band-head { display: grid; gap: 0.35rem; }
-.pillars { border-top: 1px solid var(--line); padding-top: 3.5rem; }
-.plain > div { display: grid; gap: 0.5rem; align-content: start; }
-.plain p { color: var(--muted); }
 
-/* How it works */
-.steps { list-style: none; margin: 0; padding: 0; counter-reset: s; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 1.5rem; }
-.steps li { counter-increment: s; display: grid; gap: 0.3rem; padding-top: 1rem; border-top: 1px solid var(--line); }
-.steps li::before { content: "Step " counter(s); font-family: var(--sans); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--label); }
-.steps strong { font-family: var(--serif); font-weight: 500; font-size: var(--step-1); }
-.steps span { color: var(--muted); font-size: 0.98rem; line-height: 1.5; }
+/* Reform */
+.reforms { list-style: none; margin: 0 0 4rem; padding: 0; counter-reset: r; max-width: 46rem; }
+.reforms li { counter-increment: r; display: grid; gap: 0.45rem; padding: 1.75rem 0 1.75rem 3.5rem; position: relative; border-bottom: 1px solid var(--line); }
+.reforms li:first-child { border-top: 1px solid var(--line); }
+.reforms li::before { content: counter(r, upper-roman); position: absolute; left: 0; top: 1.75rem; font-family: var(--display); font-size: 1.2rem; color: var(--label); letter-spacing: 0.08em; }
+.r-problem { font-size: var(--step-1); font-weight: 600; line-height: 1.35; }
+.r-proposal { color: var(--ink); }
+.r-step { color: var(--muted); font-size: 0.98rem; }
+.r-step .label { margin-right: 0.35rem; }
+.principles { max-width: 46rem; margin-bottom: 2.5rem; }
+.principles dl { margin: 0; display: grid; grid-template-columns: minmax(0, 14rem) minmax(0, 1fr); gap: 0.9rem 2rem; }
+.principles dt { font-weight: 600; }
+.principles dd { margin: 0; color: var(--muted); }
 
 /* The thread: a vertical timeline */
 .thread { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--line); margin-left: 0.4rem; }
@@ -256,6 +273,10 @@ footer .wrap { padding-block: 1.75rem; font-family: var(--sans); font-size: 0.85
 
 @media (max-width: 860px) {
     .module-body { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
+  .doors { grid-template-columns: minmax(0, 1fr); }
+  .door + .door { border-left: 0; border-top: 1px solid var(--line); }
+  .principles dl { grid-template-columns: minmax(0, 1fr); gap: 0.2rem; }
+  .principles dd { margin-bottom: 0.8rem; }
   .thread a { grid-template-columns: minmax(0, 1fr); gap: 0.35rem; }
   .t-year { padding-top: 0; }
   .rail { position: static; padding-left: 0; border-left: 0; border-top: 1px solid var(--line); padding-top: 1.5rem; }
