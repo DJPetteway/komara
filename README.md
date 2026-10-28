@@ -10,28 +10,32 @@ See [CHARTER.md](CHARTER.md).
 page with three doors: **Study**, **Join** and **Reform**. The site always shows
 its light theme.
 
-- **Study → The thread**: the curriculum's spine. It is 14 cases in time
-  order, from Florida 14,000 years ago to Sankara in 1987. Each case is a claim.
-  The learner judges it (supported, partly supported, not supported) before
-  seeing the evidence, the strongest counter-argument and the historians'
-  verdict. Then the case leads into the next one. Some claims hold up, some are
-  popular myths, and some are honestly contested. Answers stay in the learner's
-  own browser. The cases live in `docs/cases.js`.
-- **Study → Chapters**: eight longer readings for depth: the first Americans; Florida's
-  explorer logs; Spain, France and Florida (Fort Mose); the Haudenosaunee
-  between empires; the Haitian Revolution; Dessalines; Haiti, the Louisiana
-  Purchase and Florida; and Sankara. Each has key points, key dates, people,
-  what's debated, sources and discussion questions. The content lives in
-  `docs/modules.js`. The cases and chapters are drafts for historians to review
-  before classroom use.
-- **Reform**: five long-standing problems, what Komara proposes for each and the
-  first step, plus Komara's principles.
-- **Join** (the skills registry): a skills form with dropdowns for field, trade,
-  experience, country, heritage and availability, plus contact details and
-  verification (a public profile, an optional reference, and license details).
-  The choices live in `docs/registry.js`. Until `endpoint` is set to a form
-  backend (for example Formspree or a Google Apps Script web app), the form
-  runs in preview mode and only shows the record it would send.
+- **Study**: free, no account needed. Learners first choose their settings: who
+  is learning (ages 11–14, 15–18, adult, teacher), alone or in a group, depth
+  (quick, standard, deep), text size and motion. Then there are three tabs:
+  - **Lessons**: eight lessons, each with key points, the story, balanced
+    perspectives, a quick-check quiz, a timeline activity and a conversation.
+    The settings change what a lesson shows: depth adds or removes sections,
+    group mode adds notes for the group leader, solo mode adds a private
+    reflection box, and ages 11–14 see content notes on difficult topics.
+  - **The thread**: 14 claims in time order. The learner judges each one before
+    seeing the evidence, the strongest counter-argument and the verdict.
+  - **Conversations**: eight topics that rarely come up, such as colorism inside
+    the Haitian Revolution and Black–Native alliances and divisions.
+
+  Content lives in `docs/modules.js` (lessons), `docs/lessons.js` (quizzes,
+  conversations, content notes) and `docs/cases.js` (the thread). All of it is a
+  draft for historians to review before classroom use.
+- **Join**: register skills, then verify yourself by confirming email and phone
+  with one-time codes. A reviewer then checks the profile link and any license.
+- **Reform**: five steps in order, each unlocking the next: agree to the
+  principles, choose a path, verify, complete the path's first steps, and report
+  what you did for the person it served to confirm.
+
+Progress, answers and notes are saved only in the visitor's browser. Backend
+addresses for registrations, verification codes and reports are set in
+`docs/registry.js`. While they are empty the site runs in preview mode: nothing
+is sent, and verification codes are shown on screen.
 
 To view it locally, open `docs/index.html` in a browser. To publish it, turn on
 GitHub Pages (Settings → Pages → deploy from a branch, folder `/docs`), or upload the folder to any static host.

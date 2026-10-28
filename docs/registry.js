@@ -2,10 +2,16 @@
 // Edit these lists to add trades, countries or languages; the form updates itself.
 
 window.KOMARA_REGISTRY = {
-  // Set this to a form backend URL (for example a Formspree endpoint or a
-  // Google Apps Script web app) to collect submissions. Left empty, the form
-  // runs in preview mode and only shows the record it would send.
+  // Backend addresses. Leave them empty to run in preview mode, where nothing is
+  // sent and the page shows what would happen (including made-up verification codes).
+  //   endpoint          receives a new registration (JSON), e.g. a Formspree form
+  //   sendCodeEndpoint  receives {channel: "email"|"phone", to} and sends a 6-digit code
+  //   checkCodeEndpoint receives {channel, to, code} and answers 200 if it matches
+  //   reportEndpoint    receives a contributor's report from the Reform steps
   endpoint: "",
+  sendCodeEndpoint: "",
+  checkCodeEndpoint: "",
+  reportEndpoint: "",
 
   skills: {
     "Education": ["Primary school teacher", "Secondary school teacher", "Tutor", "Curriculum designer", "University lecturer", "Librarian", "Early childhood educator"],
