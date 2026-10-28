@@ -4,7 +4,7 @@ Komara organizes intellectual and strategic capital to develop ideas, cultivate
 leadership, and advance institutional reform across Africa and the global diaspora.
 See [CHARTER.md](CHARTER.md).
 
-## Komara Commons (the site)
+## The Komara Project site
 
 `docs/` is a free static website, with no build step:
 

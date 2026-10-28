@@ -45,9 +45,8 @@ the African Union's *Agenda 2063: The Africa We Want*.
 
 ## Name
 
-- **Komara Council**: the institution, meaning its strategic leadership and membership.
-- **Komara Order**: the philosophy, set out in this charter.
-- **Komara Project**: the long-term work, meaning the record and the initiatives it supports.
+The name is **Komara**, formally **the Komara Project**: a long-term undertaking
+that anyone in the diaspora can join and build on.
 
 ## Layers
 

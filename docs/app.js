@@ -1,4 +1,4 @@
-// Komara Commons — a small hash-routed page: home, learn, one view per module, join.
+// Komara Project — a small hash-routed page: home, learn, one view per module, join.
 (function () {
   "use strict";
 
@@ -38,7 +38,7 @@
     var pick = ["spain-france-florida", "haitian-revolution", "sankara"].map(function (id) { return byId[id]; });
     return el("div", { class: "home" }, [
       el("section", { class: "hero" }, [
-        el("p", { class: "eyebrow", text: "Komara Commons · from Florida" }),
+        el("p", { class: "eyebrow", text: "Komara Project · from Florida" }),
         el("h1", { text: "The connected story of the diaspora, free to learn." }),
         el("p", { class: "lede", text: "Every community learns its own piece of the story. Komara teaches how the pieces join: Florida’s first free Black town, the revolution that founded Haiti, the president who renamed Burkina Faso, and the peoples who reached the Americas long before Columbus." }),
         el("div", { class: "actions" }, [
@@ -51,7 +51,7 @@
         el("div", { class: "grid three" }, pick.map(moduleCard))
       ]),
       el("section", { class: "band pillars" }, [
-        el("h2", { text: "What the Commons offers" }),
+        el("h2", { text: "What Komara offers" }),
         el("div", { class: "grid three plain" }, [
           el("div", null, [el("h3", { text: "Free curriculum" }), el("p", { text: "Eight modules in plain language, with key dates, sources and discussion questions. Use them in a classroom, a church hall or a living room." })]),
           el("div", null, [el("h3", { text: "Skills registry" }), el("p", { text: "Tell us your trade, your languages and how much time you have. Schools, clinics and community projects across the diaspora can find you." })]),
